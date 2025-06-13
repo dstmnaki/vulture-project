@@ -1150,8 +1150,8 @@ if(first()){
     }
     
     MixFans2 = max(MixFans,DOWN*!Flying)
-    wing_arm_ik(0, mix(holoEntity(Bones["Left_Arm_Joint_Helper2",number]):toWorld(vec(-25+65*DOWN,-5-40*DOWN,-25+15*DOWN)),holoEntity(Bones["Spine3",number]):toWorld(vec(-45,35,-5+15*Base:vel():z()/53/25)),MixFans2)+vec(0,0,45*sin(DOWN*180)),0,25-15*MixFans2,MixFans2,ang(-45,25,25+35*Base:vel():z()/53/25),DOWN)
-    wing_arm_ik(1, mix(holoEntity(Bones["Right_Arm_Joint_Helper2",number]):toWorld(vec(-25+65*DOWN,5+40*DOWN,-25+15*DOWN)),holoEntity(Bones["Spine3",number]):toWorld(vec(-45,-35,-5+15*Base:vel():z()/53/25)),MixFans2)+vec(0,0,45*sin(DOWN*180)),0,-25+15*MixFans2,MixFans2,ang(-45,-25,-25-35*Base:vel():z()/53/25),DOWN)
+    wing_arm_ik(0, mix(holoEntity(Bones["Left_Arm_Joint_Helper2",number]):toWorld(vec(-25+65*DOWN,-5-40*DOWN,-25+15*DOWN)),holoEntity(Bones["Spine3",number]):toWorld(vec(-45,30,-10+15*Base:vel():z()/53/25)),MixFans2)+vec(0,0,45*sin(DOWN*180)),0,25-15*MixFans2,MixFans2,ang(-45,25,25+35*Base:vel():z()/53/25),DOWN)
+    wing_arm_ik(1, mix(holoEntity(Bones["Right_Arm_Joint_Helper2",number]):toWorld(vec(-25+65*DOWN,5+40*DOWN,-25+15*DOWN)),holoEntity(Bones["Spine3",number]):toWorld(vec(-45,-30,-10+15*Base:vel():z()/53/25)),MixFans2)+vec(0,0,45*sin(DOWN*180)),0,-25+15*MixFans2,MixFans2,ang(-45,-25,-25-35*Base:vel():z()/53/25),DOWN)
     
     holoAng(Bones["Left_Arm_Joint_4",number],holoEntity(Bones["Left_Arm_Joint_3",number]):toWorld(ang(-holoEntity(Bones["Left_Arm_Joint_3",number]):angles():pitch()/(1+Base:vel():length()*0.01)-90,0,0)))
     holoAng(Bones["Right_Arm_Joint_4",number],holoEntity(Bones["Right_Arm_Joint_3",number]):toWorld(ang(-holoEntity(Bones["Left_Arm_Joint_3",number]):angles():pitch()/(1+Base:vel():length()*0.01)-90,0,0)))
