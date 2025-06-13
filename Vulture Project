@@ -1139,6 +1139,16 @@ if(first()){
     
     local Ang = AnimationAngles["Right_Wing_Joint_3_Angles",angle]
     holoAng(Bones["Right_Wing_Joint_3",number],vectorJiggle2World(6, Ang:forward(), 0.4, 0.25, Ang:up()))
+    
+    
+    for(I=1,5){
+        holoAng(Bones["Left_Feather_"+I,number],vectorJiggle2World(6+I, holoEntity(Bones["Left_Wing_Joint_3",number]):forward(), 0.4, 0.25, holoEntity(Bones["Left_Wing_Joint_3",number]):toWorld(ang(0,0,-45*(I-1)/5)):up()))
+    }
+    
+    for(I=1,5){
+        holoAng(Bones["Right_Feather_"+I,number],vectorJiggle2World(11+I, holoEntity(Bones["Right_Wing_Joint_3",number]):forward(), 0.4, 0.25, holoEntity(Bones["Right_Wing_Joint_3",number]):toWorld(ang(0,0,45*(I-1)/5)):up()))
+    }
+    
     MixFans2 = max(MixFans,DOWN*!Flying)
     wing_arm_ik(0, mix(holoEntity(Bones["Left_Arm_Joint_Helper2",number]):toWorld(vec(-25+65*DOWN,-5-40*DOWN,-25+15*DOWN)),holoEntity(Bones["Spine3",number]):toWorld(vec(-45,35,-5+15*Base:vel():z()/53/25)),MixFans2)+vec(0,0,45*sin(DOWN*180)),0,25-15*MixFans2,MixFans2,ang(-45,25,25+35*Base:vel():z()/53/25),DOWN)
     wing_arm_ik(1, mix(holoEntity(Bones["Right_Arm_Joint_Helper2",number]):toWorld(vec(-25+65*DOWN,5+40*DOWN,-25+15*DOWN)),holoEntity(Bones["Spine3",number]):toWorld(vec(-45,-35,-5+15*Base:vel():z()/53/25)),MixFans2)+vec(0,0,45*sin(DOWN*180)),0,-25+15*MixFans2,MixFans2,ang(-45,-25,-25-35*Base:vel():z()/53/25),DOWN)
