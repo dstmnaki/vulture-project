@@ -1142,11 +1142,11 @@ if(first()){
     
     
     for(I=1,5){
-        holoAng(Bones["Left_Feather_"+I,number],vectorJiggle2World(6+I, holoEntity(Bones["Left_Wing_Joint_3",number]):forward(), 0.4, 0.25, holoEntity(Bones["Left_Wing_Joint_3",number]):toWorld(ang(0,0,-(45-45*DOWN+10*clamp(-Base:velL():z()*0.1,0,1))*(I-1)/5)):up()))
+        holoAng(Bones["Left_Feather_"+I,number],vectorJiggle2World(6+I, holoEntity(Bones["Left_Wing_Joint_3",number]):forward(), 0.4, 0.25, holoEntity(Bones["Left_Wing_Joint_3",number]):toWorld(ang(0,0,-(45-45*DOWN+25*clamp(-Base:velL():z()*0.1,0,1))*(I-1)/5)):up()))
     }
     
     for(I=1,5){
-        holoAng(Bones["Right_Feather_"+I,number],vectorJiggle2World(11+I, holoEntity(Bones["Right_Wing_Joint_3",number]):forward(), 0.4, 0.25, holoEntity(Bones["Right_Wing_Joint_3",number]):toWorld(ang(0,0,(45-45*DOWN+10*clamp(-Base:velL():z()*0.1,0,1))*(I-1)/5)):up()))
+        holoAng(Bones["Right_Feather_"+I,number],vectorJiggle2World(11+I, holoEntity(Bones["Right_Wing_Joint_3",number]):forward(), 0.4, 0.25, holoEntity(Bones["Right_Wing_Joint_3",number]):toWorld(ang(0,0,(45-45*DOWN+25*clamp(-Base:velL():z()*0.1,0,1))*(I-1)/5)):up()))
     }
     
     MixFans2 = max(MixFans,DOWN*!Flying)
