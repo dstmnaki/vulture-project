@@ -769,6 +769,7 @@ if(first()){
             Base:emitSound("^thrusters/Rocket04.wav",100,100)
         }else{
             Base:emitSoundStop("^thrusters/Rocket04.wav")
+            Base:emitSound("buttons/lever5.wav",100,100)
         }
     }
     #ifdef boom2(vector,number,number)
