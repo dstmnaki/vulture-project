@@ -1183,7 +1183,9 @@ if(first()){
     holoAng(Bones["Left_Arm_Joint_5",number],holoEntity(Bones["Left_Arm_Joint_4",number]):toWorld(ang(0,0,RotorRPM)))
     holoAng(Bones["Right_Arm_Joint_5",number],holoEntity(Bones["Right_Arm_Joint_4",number]):toWorld(ang(0,0,-RotorRPM)))
     
-    
+    if(changed(DN2)){
+        Base:emitSound("npc/dog/dog_servo6.wav",100,100)
+    }
     local Angle = (holoEntity(Bones["Left_Laser",number]):pos()-Driver:aimPos()):toAngle()
     holoAng(Bones["Left_Laser",number],Angle:rotateAroundAxis(Angle:right(),90))
     local Angle = (holoEntity(Bones["Right_Laser",number]):pos()-Driver:aimPos()):toAngle()
