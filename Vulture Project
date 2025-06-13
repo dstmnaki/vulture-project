@@ -764,17 +764,6 @@ if(first()){
     SL = 0#Driver:keyWalk()
     DN = Driver:keyWalk()
     
-    
-    local Angle = (holoEntity(Bones["Left_Laser",number]):pos()-Driver:aimPos()):toAngle()
-    holoAng(Bones["Left_Laser",number],Angle:rotateAroundAxis(Angle:right(),90))
-    local Angle = (holoEntity(Bones["Right_Laser",number]):pos()-Driver:aimPos()):toAngle()
-    holoAng(Bones["Right_Laser",number],Angle:rotateAroundAxis(Angle:right(),90))
-    
-    local DistMath = holoEntity(Bones["Left_Laser",number]):pos():distance(Driver:aimPos())
-    holoScale(Bones["Left_Laser",number],vec(0.1,0.1,DistMath/45)*M1)
-    local DistMath = holoEntity(Bones["Right_Laser",number]):pos():distance(Driver:aimPos())
-    holoScale(Bones["Right_Laser",number],vec(0.1,0.1,DistMath/45)*M2)
-    
     #ifdef boom2(vector,number,number)
         if((M1|M2)&((curtime()-LaserCT)>0.1)){
             LaserCT = curtime()
@@ -1177,6 +1166,16 @@ if(first()){
     holoAng(Bones["Left_Arm_Joint_5",number],holoEntity(Bones["Left_Arm_Joint_4",number]):toWorld(ang(0,0,RotorRPM)))
     holoAng(Bones["Right_Arm_Joint_5",number],holoEntity(Bones["Right_Arm_Joint_4",number]):toWorld(ang(0,0,-RotorRPM)))
     
+    
+    local Angle = (holoEntity(Bones["Left_Laser",number]):pos()-Driver:aimPos()):toAngle()
+    holoAng(Bones["Left_Laser",number],Angle:rotateAroundAxis(Angle:right(),90))
+    local Angle = (holoEntity(Bones["Right_Laser",number]):pos()-Driver:aimPos()):toAngle()
+    holoAng(Bones["Right_Laser",number],Angle:rotateAroundAxis(Angle:right(),90))
+    
+    local DistMath = holoEntity(Bones["Left_Laser",number]):pos():distance(Driver:aimPos())
+    holoScale(Bones["Left_Laser",number],vec(0.1,0.1,DistMath/45)*M1)
+    local DistMath = holoEntity(Bones["Right_Laser",number]):pos():distance(Driver:aimPos())
+    holoScale(Bones["Right_Laser",number],vec(0.1,0.1,DistMath/45)*M2)
     
     holoPos(Bones["CamParent",number],Base:vel()*0.075*Flying+holoEntity(Bones["Root",number]):toWorld(vec(-175,0+1.3*Sin*(Step-!Step)*(1+0.7*ShiftVal),80+1.5*(0.5-Sin)*(1+0.6*ShiftVal)):rotate(LocalEyes)))
     Seat:setAng(ang())
