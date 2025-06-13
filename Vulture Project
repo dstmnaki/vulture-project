@@ -19,8 +19,6 @@ if(first()){
     Base:propInertia(vec(100))
     
     Seat = seatSpawn("models/nova/airboat_seat.mdl",1)
-    Seat:propNotSolid(1)
-    Seat:propDraw(0)
     Seat:setAlpha(0)
     rangerFilter(array(Seat,Base))
     rangerPersist(1)
@@ -855,6 +853,7 @@ if(first()){
     Base:propGravity(!On_Ground*!Flying)
     
     if(changed(Driver)){
+        Seat:propNotSolid(Driver:isValid())
         if(Driver==owner()){
             owner():setMaterial("null")
         }else{
@@ -1150,6 +1149,7 @@ if(first()){
     
     holoPos(Bones["CamParent",number],holoEntity(Bones["Root",number]):toWorld(vec(-175,0+1.3*Sin*(Step-!Step)*(1+0.7*ShiftVal),80+1.5*(0.5-Sin)*(1+0.6*ShiftVal)):rotate(LocalEyes)))
     Seat:setAng(ang())
+    Seat:setAlpha(75*!Seat:driver():isValid())
     #ifdef entity:podThirdPerson(number)
         Seat:podThirdPerson(1)
         Seat:podThirdPersonDist(0.8)
