@@ -3,7 +3,7 @@
 @persist MOVEW MOVES MOVEA MOVED DOWN Turning MoveVal MOVEMAX ShiftVal [RFoot LFoot LHand RHand LeftLegFly RightLegFly]:vector Step WalkRate Yaw [Ranger2 Ranger3]:ranger M2Val M2Val2 EditMode
 @persist [Base Seat PodController]:entity DriverTargets:array Length1_Arm Length2_Arm Length1_Leg Length2_Leg On_Ground2 [LocalEyes PelvisAng]:angle HasJumpPack
 @persist [HT CT Bones Animation BoneParents]:table [SpawnStatus CoreStatus]:string [HN CN I SpawnCounter] DriverStore:entity Pistolfirerate ZoomLevel
-@persist [JiggleTable AnimationAngles]:table LaserCT SpaceForABit Flying MixFans FlyingStart RotorRPM DN2 FlyingStart2 FlyingStartVal MovementBlock Boosting Landed BoostData:table Nodes DistBelt CamParent:entity CamPos:vector CamDist CamFOV StartedBoosting StartPos:vector M2Val3 M2Val3Increase
+@persist [JiggleTable AnimationAngles]:table TP LaserCT SpaceForABit Flying MixFans FlyingStart RotorRPM DN2 FlyingStart2 FlyingStartVal MovementBlock Boosting Landed BoostData:table Nodes DistBelt CamParent:entity CamPos:vector CamDist CamFOV StartedBoosting StartPos:vector M2Val3 M2Val3Increase PodControllerW:wirelink
 @model models/hunter/misc/sphere075x075.mdl
 if(dupefinished()){reset()}
 if(first()){
@@ -774,7 +774,7 @@ if(first()){
     #ifdef boom2(vector,number,number)
         if((M1|M2)&((curtime()-LaserCT)>0.1)){
             LaserCT = curtime()
-            boom2(Driver:aimPos(),500,150)
+            boom2(Driver:aimPos(),200,150)
         }
     #endif
     if(changed(DN)&DN&(FlyingStartVal==0)){
@@ -877,6 +877,7 @@ if(first()){
     Base:propGravity(!On_Ground*!Flying)
     
     if(changed(Driver)){
+        Base:soundPlay("flightloop3",0,"^thrusters/Hover00.wav")
         Seat:propNotSolid(Driver:isValid())
         if(Driver==owner()){
             owner():setMaterial("null")
@@ -884,6 +885,7 @@ if(first()){
             owner():setMaterial("")
         }
     }
+    soundVolume("flightloop3",1*Flying*clamp(Base:vel():length()*0.01,0,1))
     if(!Seat:driver():isValid()){
         #ifdef entity:plySetPos(vector)
             foreach(I,E:entity=DriverTargets){
@@ -1190,14 +1192,14 @@ if(first()){
     holoScale(Bones["Left_Laser",number],vec(0.1,0.1,DistMath/45)*M1)
     local DistMath = holoEntity(Bones["Right_Laser",number]):pos():distance(Driver:aimPos())
     holoScale(Bones["Right_Laser",number],vec(0.1,0.1,DistMath/45)*M2)
-    
-    holoPos(Bones["CamParent",number],Base:vel()*0.075*Flying+holoEntity(Bones["Root",number]):toWorld(vec(-175,0+1.3*Sin*(Step-!Step)*(1+0.7*ShiftVal),80+1.5*(0.5-Sin)*(1+0.6*ShiftVal)):rotate(LocalEyes)))
+    TP=PodControllerW["ThirdPerson",number]
+    if(TP){
+        holoPos(Bones["CamParent",number],Base:vel()*0.075*Flying+holoEntity(Bones["Root",number]):toWorld(vec(-175,0+1.3*Sin*(Step-!Step)*(1+0.7*ShiftVal),80+1.5*(0.5-Sin)*(1+0.6*ShiftVal)):rotate(LocalEyes)))
+    }else{
+        holoPos(Bones["CamParent",number],holoEntity(Bones["Head",number]):toWorld(vec(15,0,0))-vec(0,0,32))
+    }
     Seat:setAng(ang())
     Seat:setAlpha(75*!Seat:driver():isValid())
-    #ifdef entity:podThirdPerson(number)
-        Seat:podThirdPerson(1)
-        Seat:podThirdPersonDist(0.8)
-    #endif
     
 }
 event removed(_){
