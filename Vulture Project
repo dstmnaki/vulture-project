@@ -764,6 +764,13 @@ if(first()){
     SL = 0#Driver:keyWalk()
     DN = Driver:keyWalk()
     
+    if(changed(M1|M2)){
+        if(M1|M2){
+            Base:emitSound("^thrusters/Rocket04.wav",100,100)
+        }else{
+            Base:emitSoundStop("^thrusters/Rocket04.wav")
+        }
+    }
     #ifdef boom2(vector,number,number)
         if((M1|M2)&((curtime()-LaserCT)>0.1)){
             LaserCT = curtime()
@@ -785,8 +792,10 @@ if(first()){
         Landed=DN
         FlyingStart2=0
     }
-    if(changed(UP)&UP&!Flying){
+    if(changed(UP)&UP&!Flying&!FlyingStart2){
         FlyingStart2=1
+        Base:soundPlay("flightloop",0,"^thrusters/Hover01.wav")
+        Base:soundPlay("flightloop2",0,"^thrusters/mh1.wav")
         DN2=0
     }
     FlyingStartVal += 0.1*(FlyingStart2*(DOWN<=0.4)-!FlyingStart2*0.5)
@@ -798,7 +807,12 @@ if(first()){
     if(FlyingStartVal==0&Flying){
         Flying=0
         DN2=1
+        soundStop("flightloop")
+        soundStop("flightloop2")
     }
+    soundPitch("flightloop",50*FlyingStart2+(100/(1+FlyingStart2))*FlyingStartVal+35*Base:vel():length()*0.002)
+    soundPitch("flightloop2",50*FlyingStart2+(100/(1+FlyingStart2))*FlyingStartVal+35*Base:vel():length()*0.002)
+    
     SpaceForABit-=0.1
     SpaceForABit=clamp(SpaceForABit,0,1)
     W=W2
