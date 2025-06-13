@@ -776,7 +776,7 @@ if(first()){
     holoScale(Bones["Right_Laser",number],vec(0.1,0.1,DistMath/45)*M2)
     
     #ifdef boom2(vector,number,number)
-        if((M1|M2)&(curtime()-LaserCT)>0.1){
+        if((M1|M2)&((curtime()-LaserCT)>0.1)){
             LaserCT = curtime()
             boom2(Driver:aimPos(),500,150)
         }
