@@ -1,5 +1,4 @@
 @name Vulture Project
-@inputs [GunMain GunSecondary]:entity EGP:wirelink CamAng:vector [PelvisParent Spine1Parent Spine2Parent HeadParent Left_UpperArmParent Right_UpperArmParent Left_ForeArmParent Right_ForeArmParent Left_HandParent Right_HandParent Left_ThighParent Right_ThighParent Left_CalfParent Right_CalfParent Left_FootParent Right_FootParent Plasma_PistolParent Heavy_BolterParent]:entity
 @persist MOVEW MOVES MOVEA MOVED DOWN Turning MoveVal MOVEMAX ShiftVal [RFoot LFoot LHand RHand LeftLegFly RightLegFly]:vector Step WalkRate Yaw [Ranger2 Ranger3]:ranger M2Val M2Val2 EditMode
 @persist [Base Seat PodController]:entity DriverTargets:array Length1_Arm Length2_Arm Length1_Leg Length2_Leg On_Ground2 [LocalEyes PelvisAng]:angle HasJumpPack
 @persist [HT CT Bones Animation BoneParents]:table [SpawnStatus CoreStatus]:string [HN CN I SpawnCounter] DriverStore:entity Pistolfirerate ZoomLevel
