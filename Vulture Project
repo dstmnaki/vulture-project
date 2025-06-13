@@ -3,7 +3,7 @@
 @persist MOVEW MOVES MOVEA MOVED DOWN Turning MoveVal MOVEMAX ShiftVal [RFoot LFoot LHand RHand LeftLegFly RightLegFly]:vector Step WalkRate Yaw [Ranger2 Ranger3]:ranger M2Val M2Val2 EditMode
 @persist [Base Seat PodController]:entity DriverTargets:array Length1_Arm Length2_Arm Length1_Leg Length2_Leg On_Ground2 [LocalEyes PelvisAng]:angle HasJumpPack
 @persist [HT CT Bones Animation BoneParents]:table [SpawnStatus CoreStatus]:string [HN CN I SpawnCounter] DriverStore:entity Pistolfirerate ZoomLevel
-@persist [JiggleTable AnimationAngles]:table SpaceForABit Flying MixFans FlyingStart RotorRPM DN2 FlyingStart2 FlyingStartVal MovementBlock Boosting Landed BoostData:table Nodes DistBelt CamParent:entity CamPos:vector CamDist CamFOV StartedBoosting StartPos:vector M2Val3 M2Val3Increase
+@persist [JiggleTable AnimationAngles]:table LaserCT SpaceForABit Flying MixFans FlyingStart RotorRPM DN2 FlyingStart2 FlyingStartVal MovementBlock Boosting Landed BoostData:table Nodes DistBelt CamParent:entity CamPos:vector CamDist CamFOV StartedBoosting StartPos:vector M2Val3 M2Val3Increase
 @model models/hunter/misc/sphere075x075.mdl
 if(dupefinished()){reset()}
 if(first()){
@@ -108,6 +108,12 @@ if(first()){
     
     I++, HN++, HT[HN,array] = array(I, Bones["Left_Wing_Joint_2",number], noentity(), 0, vec(0,0,0), ang(0, 0, 0), ShowBones, "models/sprops/geometry/sphere_3.mdl"),Bones["Left_Arm_Joint_Helper2",number]=I
     I++, HN++, HT[HN,array] = array(I, Bones["Right_Wing_Joint_2",number], noentity(), 0, vec(0,0,0), ang(0, 0, 0), ShowBones, "models/sprops/geometry/sphere_3.mdl"),Bones["Right_Arm_Joint_Helper2",number]=I
+    
+    local Parent = Bones["Left_Hand_Real",number]
+    I++, HN++, HT[HN,table] = table(I, Parent, noentity(), 0, vec(0, 0, 0), ang(0, 0, 0), vec(0.1,0.1,1), "models/props_c17/oildrum001.mdl", "models/debug/debugwhite", vec4(0, 255, 255, 255), 1), Bones["Left_Laser",number] = I
+    
+    local Parent = Bones["Right_Hand_Real",number]
+    I++, HN++, HT[HN,table] = table(I, Parent, noentity(), 0, vec(0, 0, 0), ang(0, 0, 0), vec(0.1,0.1,1), "models/props_c17/oildrum001.mdl", "models/debug/debugwhite", vec4(0, 255, 255, 255), 1), Bones["Right_Laser",number] = I
     
     
     if(Model){
@@ -533,7 +539,7 @@ if(first()){
             holoColor(Index, vec(255))
         }
         
-        holoSkin(Index, This:exists(11) ? This[11, number] : 0)
+        holoDisableShading(Index, This:exists(11) ? This[11, number] : 0)
     }
 
     #- Clip a hologram from data array
@@ -743,14 +749,13 @@ if(first()){
 }elseif(clk("int")){
     timer("int",50)
     Driver=Seat:driver()
-    
     Ground_Ranger=rangerOffsetHull((Length1_Leg+Length2_Leg)+15+13*!Boosting,Base:pos(),vec(0,0,-1),vec(25/3.15,25/3.15,5))
     
     On_Ground=(Ground_Ranger:distance()<=((Length1_Leg+Length2_Leg)+6+19*Flying))
     BaseVel=Base:vel()#Base:forward()*80#Base:vel()
     SP = Driver:keySprint()*On_Ground2*!Driver:keyPressed("s")
-    M1 = Driver:keyAttack1()*!SP
-    M2 = Driver:keyAttack2()*!SP|M1
+    M1 = Driver:keyAttack1()
+    M2 = Driver:keyAttack2()
     W2 = Driver:keyPressed("w")*(On_Ground2|Flying)
     S2 = Driver:keyPressed("s")*(On_Ground2|Flying)
     A2 = Driver:keyPressed("a")*(On_Ground2|Flying)
@@ -758,6 +763,24 @@ if(first()){
     UP = max(Driver:keyJump(),clamp(SpaceForABit*2,0,1))
     SL = 0#Driver:keyWalk()
     DN = Driver:keyWalk()
+    
+    
+    local Angle = (holoEntity(Bones["Left_Laser",number]):pos()-Driver:aimPos()):toAngle()
+    holoAng(Bones["Left_Laser",number],Angle:rotateAroundAxis(Angle:right(),90))
+    local Angle = (holoEntity(Bones["Right_Laser",number]):pos()-Driver:aimPos()):toAngle()
+    holoAng(Bones["Right_Laser",number],Angle:rotateAroundAxis(Angle:right(),90))
+    
+    local DistMath = holoEntity(Bones["Left_Laser",number]):pos():distance(Driver:aimPos())
+    holoScale(Bones["Left_Laser",number],vec(0.1,0.1,DistMath/45)*M1)
+    local DistMath = holoEntity(Bones["Right_Laser",number]):pos():distance(Driver:aimPos())
+    holoScale(Bones["Right_Laser",number],vec(0.1,0.1,DistMath/45)*M2)
+    
+    #ifdef boom2(vector,number,number)
+        if((M1|M2)&(curtime()-LaserCT)>0.1){
+            LaserCT = curtime()
+            boom2(Driver:aimPos(),500,150)
+        }
+    #endif
     if(changed(DN)&DN&(FlyingStartVal==0)){
         DN2=!DN2
     }
@@ -817,11 +840,6 @@ if(first()){
     ShiftVal += 0.1*(SP-!SP)
     ShiftVal=clamp(ShiftVal,0,MOVEW)
     
-    M2Val2 += 0.25*((M2|M1)-(!M2&!M1))
-    M2Val2=clamp(M2Val2,0,1.5)
-    
-    M2Val3 += 0.25*(M2Val3Increase-!M2Val3Increase)
-    M2Val3=clamp(M2Val3,0,1.5)
     if(Flying){
         DN2 = 0
     }
@@ -918,7 +936,6 @@ if(first()){
     Cos2=cos((0.5+WalkRate)*180)*MoveVal
     Distance=55+(20*ShiftVal)
     
-    AimPos=Driver:isValid()*!SL ? rangerOffset(99999,holoEntity(Bones["CamParent",number]):pos(),LocalEyes:forward()):pos() : rangerOffset(99999,holoEntity(Bones["CamParent",number]):pos(),LocalEyes:forward()):pos()
     if(Flying){
         if(Moving&SP){
             Animation["state",string]="move_air"
@@ -1092,8 +1109,8 @@ if(first()){
     
     holoAng(Bones["Spine3",number],slerp(quat(holoEntity(Bones["Right_Wing_Joint_2",number]):angles()),quat(holoEntity(Bones["Left_Wing_Joint_2",number]):angles()),0.5):toAngle())
     
-    arm_ik(0,-RollArmLeft,LeftArmTarget,table(ang(),0))
-    arm_ik(1,RollArmRight,RightArmTarget,table(ang(),0))
+    arm_ik(0,-RollArmLeft,M1 ? Driver:aimPos() : LeftArmTarget,table(ang(),0))
+    arm_ik(1,RollArmRight,M2 ? Driver:aimPos() : RightArmTarget,table(ang(),0))
     if(!Flying){
         holoPos(Bones["Root",number],mix(LeftLeg,RightLeg,0.5))
     }else{
@@ -1159,6 +1176,7 @@ if(first()){
     RotorRPM += 25*FlyingStart
     holoAng(Bones["Left_Arm_Joint_5",number],holoEntity(Bones["Left_Arm_Joint_4",number]):toWorld(ang(0,0,RotorRPM)))
     holoAng(Bones["Right_Arm_Joint_5",number],holoEntity(Bones["Right_Arm_Joint_4",number]):toWorld(ang(0,0,-RotorRPM)))
+    
     
     holoPos(Bones["CamParent",number],Base:vel()*0.075*Flying+holoEntity(Bones["Root",number]):toWorld(vec(-175,0+1.3*Sin*(Step-!Step)*(1+0.7*ShiftVal),80+1.5*(0.5-Sin)*(1+0.6*ShiftVal)):rotate(LocalEyes)))
     Seat:setAng(ang())
