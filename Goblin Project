@@ -826,10 +826,10 @@ if(first()){
     }
     local RollGet = Base:toLocal(holoEntity(Bones["Glider_Base",number]):pos()):y()*0.75
     local Roll = clamp(RollGet/(1+abs(RollGet*0.025)),-12,12)
-    holoAng(Bones["Left_Glider_Arm",number],holoEntity(Bones["Glider_Base",number]):toWorld(ang(0,0,clamp(-BASEANGVEL:yaw()/90,0,1)*35-abs(Roll)*Flying/(1+ShiftVal)*(1+(Roll<0))*(1+abs(Roll)/10))*0.5))
-    holoAng(Bones["Right_Glider_Arm",number],holoEntity(Bones["Glider_Base",number]):toWorld(ang(0,0,-clamp(BASEANGVEL:yaw()/90,0,1)*35+abs(Roll)*Flying/(1+ShiftVal)*(1+(Roll>0))*(1+abs(Roll)/10))*0.5))
-    holoAng(Bones["Left_Glider_Wing",number],holoEntity(Bones["Left_Glider_Arm",number]):toWorld(ang(15*clamp(-Base:velL():x()/53/15+MOVEX,-1,1)*Flying*(1-ShiftVal)+10*BASEANGVEL:yaw()/90*ShiftVal,0,-abs(Roll)*Flying/(1+ShiftVal)*(1+(Roll<0))*(1+abs(Roll)/10))))
-    holoAng(Bones["Right_Glider_Wing",number],holoEntity(Bones["Right_Glider_Arm",number]):toWorld(ang(15*clamp(-Base:velL():x()/53/15+MOVEX,-1,1)*Flying*(1-ShiftVal)-10*BASEANGVEL:yaw()/90*ShiftVal,0,abs(Roll)*Flying/(1+ShiftVal)*(1+(Roll>0))*(1+abs(Roll)/10))))
+    holoAng(Bones["Left_Glider_Arm",number],holoEntity(Bones["Glider_Base",number]):toWorld(ang(0,0,clamp(-BASEANGVEL:yaw()/90,0,1)*35-abs(Roll)*Flying*(0.25+0.25*ShiftVal)*(1+(Roll<0))*(1+abs(Roll)/10))*0.5))
+    holoAng(Bones["Right_Glider_Arm",number],holoEntity(Bones["Glider_Base",number]):toWorld(ang(0,0,-clamp(BASEANGVEL:yaw()/90,0,1)*35+abs(Roll)*Flying*(0.25+0.25*ShiftVal)*(1+(Roll>0))*(1+abs(Roll)/10))*0.5))
+    holoAng(Bones["Left_Glider_Wing",number],holoEntity(Bones["Left_Glider_Arm",number]):toWorld(ang(15*clamp(-Base:velL():x()/53/15+MOVEX,-1,1)*Flying*(1-ShiftVal)+10*BASEANGVEL:yaw()/90*ShiftVal,0,-abs(Roll)*Flying*(0.25+0.25*ShiftVal)*(1+(Roll<0))*(1+abs(Roll)/10))))
+    holoAng(Bones["Right_Glider_Wing",number],holoEntity(Bones["Right_Glider_Arm",number]):toWorld(ang(15*clamp(-Base:velL():x()/53/15+MOVEX,-1,1)*Flying*(1-ShiftVal)-10*BASEANGVEL:yaw()/90*ShiftVal,0,abs(Roll)*Flying*(0.25+0.25*ShiftVal)*(1+(Roll>0))*(1+abs(Roll)/10))))
     arm_ik(0,-RollArmLeft,LeftArmTarget,table(ang(),0))
     arm_ik(1,RollArmRight,RightArmTarget,table(ang(),0))
     if(!Flying){
