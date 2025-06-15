@@ -465,7 +465,7 @@ if(first()){
     Driver=Seat:driver()
     Ground_Ranger=rangerOffsetHull((Length1_Leg+Length2_Leg)+15+13*!Boosting,Base:pos(),vec(0,0,-1),vec(25/3.15,25/3.15,5))
     BASEANGVEL2 = slerp(quat(BASEANGVEL2),quat(Base:angVel()),0.4):toAngle()
-    BASEANGVEL = clamp(BASEANGVEL2:yaw()/2+(MOVEA-MOVED)*45,-45,45)
+    BASEANGVEL = clamp(BASEANGVEL2:yaw()+(MOVEA-MOVED)*45,-80,80)
     On_Ground=(Ground_Ranger:distance()<=((Length1_Leg+Length2_Leg)+6+19*Flying))
     BaseVel=Base:vel()#Base:forward()*80#Base:vel()
     SP = Driver:keySprint()*On_Ground2*!Driver:keyPressed("s")
