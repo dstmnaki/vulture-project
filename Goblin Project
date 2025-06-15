@@ -681,14 +681,14 @@ if(first()){
                 case "none",
                     Animation["PelvisAngNext",angle]=ang(25*MOVEX-(MoveL:x()-MOVEX*(16+20*ShiftVal))*6,Yaw,25*MOVEY)*(1-ShiftVal)+ang(90+LocalEyes:pitch(),Yaw,0)*(ShiftVal)
                     Animation["PelvisOffsetNext",vector]=vec(15*sin((curtime()-0.5)*180*0.5)*(1-MoveVal),10*BASEANGVEL:yaw()/90*ShiftVal,0)
-                    Animation["Spine1AngNext",angle]=ang(-10*ShiftVal+25+10*sin((curtime()-0.5)*180*0.5)*(1-MoveVal),15*ShiftVal,15*ShiftVal)
-                    Animation["Spine2AngNext",angle]=ang(-15*ShiftVal+35+15*sin((curtime()-0.5)*180*0.5)*(1-MoveVal),25*ShiftVal,25*ShiftVal)
+                    Animation["Spine1AngNext",angle]=ang(-10*ShiftVal+25+10*sin((curtime()-0.5)*180*0.5)*(1-MoveVal),15*clamp(BASEANGVEL:yaw()/90*ShiftVal,-1,1),15*clamp(BASEANGVEL:yaw()/90*ShiftVal,-1,1))
+                    Animation["Spine2AngNext",angle]=ang(-15*ShiftVal+35+15*sin((curtime()-0.5)*180*0.5)*(1-MoveVal),25*clamp(BASEANGVEL:yaw()/90*ShiftVal,-1,1),25*clamp(BASEANGVEL:yaw()/90*ShiftVal,-1,1))
                     Animation["HeadAngNext",angle]=ang(-15*MOVEX,0,-5*MOVEY)*(1-ShiftVal)+ang(-45,0,0)*(ShiftVal)
                     
-                    LeftArmTarget1=holoEntity(Bones["Spine1",number]):toWorld(vec(6,25,-3))
+                    LeftArmTarget1=holoEntity(Bones["Spine1",number]):toWorld(vec(6,35,0))
                     LeftArmTarget2=holoEntity(Bones["Left_Glider_Wing",number]):toWorld(vec(25,5,-3))
                     LeftArmTarget=mix(LeftArmTarget1,LeftArmTarget2,clamp(-1+clamp(BASEANGVEL:yaw()/25*ShiftVal,0,5),1-ShiftVal,1))
-                    RightArmTarget1=holoEntity(Bones["Spine1",number]):toWorld(vec(6,-25,-3))
+                    RightArmTarget1=holoEntity(Bones["Spine1",number]):toWorld(vec(6,-35,0))
                     RightArmTarget2=holoEntity(Bones["Right_Glider_Wing",number]):toWorld(vec(25,-5,-3))
                     RightArmTarget=mix(RightArmTarget1,RightArmTarget2,clamp(-1+clamp(-BASEANGVEL:yaw()/25*ShiftVal,0,5),1-ShiftVal,1))
                     
@@ -705,16 +705,16 @@ if(first()){
                 case "none",
                     Animation["PelvisAngNext",angle]=ang(25*MOVEX-(MoveL:x()-MOVEX*(16+20*ShiftVal))*6,Yaw,25*MOVEY)*(1-ShiftVal)+ang(90+LocalEyes:pitch(),Yaw,0)*(ShiftVal)
                     Animation["PelvisOffsetNext",vector]=vec(15*sin((curtime()-0.5)*180*0.5)*(1-MoveVal),10*BASEANGVEL:yaw()/90*ShiftVal,0)
-                    Animation["Spine1AngNext",angle]=ang(-10*ShiftVal+25+10*sin((curtime()-0.5)*180*0.5)*(1-MoveVal),15*ShiftVal,15*ShiftVal)
-                    Animation["Spine2AngNext",angle]=ang(-15*ShiftVal+35+15*sin((curtime()-0.5)*180*0.5)*(1-MoveVal),25*ShiftVal,25*ShiftVal)
+                    Animation["Spine1AngNext",angle]=ang(-10*ShiftVal+25+10*sin((curtime()-0.5)*180*0.5)*(1-MoveVal),15*clamp(BASEANGVEL:yaw()/90*ShiftVal,-1,1),15*clamp(BASEANGVEL:yaw()/90*ShiftVal,-1,1))
+                    Animation["Spine2AngNext",angle]=ang(-15*ShiftVal+35+15*sin((curtime()-0.5)*180*0.5)*(1-MoveVal),25*clamp(BASEANGVEL:yaw()/90*ShiftVal,-1,1),25*clamp(BASEANGVEL:yaw()/90*ShiftVal,-1,1))
                     Animation["HeadAngNext",angle]=ang(-15*MOVEX,0,-5*MOVEY)*(1-ShiftVal)+ang(-45,0,0)*(ShiftVal)
                     
-                    LeftArmTarget1=holoEntity(Bones["Spine1",number]):toWorld(vec(6,25,-3))
+                    LeftArmTarget1=holoEntity(Bones["Spine1",number]):toWorld(vec(6,35,0))
                     LeftArmTarget2=holoEntity(Bones["Left_Glider_Wing",number]):toWorld(vec(25,5,-3))
-                    LeftArmTarget=mix(LeftArmTarget1,LeftArmTarget2,clamp(-2+clamp(BASEANGVEL:yaw()/25*ShiftVal,0,5),0,1))
-                    RightArmTarget1=holoEntity(Bones["Spine1",number]):toWorld(vec(6,-25,-3))
+                    LeftArmTarget=mix(LeftArmTarget1,LeftArmTarget2,clamp(-1+clamp(BASEANGVEL:yaw()/25*ShiftVal,0,5),1-ShiftVal,1))
+                    RightArmTarget1=holoEntity(Bones["Spine1",number]):toWorld(vec(6,-35,0))
                     RightArmTarget2=holoEntity(Bones["Right_Glider_Wing",number]):toWorld(vec(25,-5,-3))
-                    RightArmTarget=mix(RightArmTarget1,RightArmTarget2,clamp(-2+clamp(-BASEANGVEL:yaw()/25*ShiftVal,0,5),0,1))
+                    RightArmTarget=mix(RightArmTarget1,RightArmTarget2,clamp(-1+clamp(-BASEANGVEL:yaw()/25*ShiftVal,0,5),1-ShiftVal,1))
                     
                     RollArmLeft=0
                     RollArmRight=0
