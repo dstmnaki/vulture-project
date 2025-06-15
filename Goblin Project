@@ -491,7 +491,7 @@ if(first()){
     }
     if(changed(UP)&UP&!Flying&!FlyingStart2){
         FlyingStart2=1
-        Base:soundPlay("flightloop",0,"^thrusters/Rocket00.wav")
+        holoEntity(Bones["Pelvis",number]):soundPlay("flightloop",0,"^thrusters/Rocket00.wav")
     }
     FlyingStartVal += 0.1*(FlyingStart2-!FlyingStart2)
     FlyingStartVal=clamp(FlyingStartVal,Flying*FlyingStart2,1)
@@ -566,7 +566,7 @@ if(first()){
     Base:propGravity(!On_Ground*!Flying)
     
     if(changed(Driver)){
-        Base:soundPlay("flightloop3",0,"^thrusters/Hover00.wav")
+        holoEntity(Bones["Pelvis",number]):soundPlay("flightloop3",0,"^thrusters/Hover00.wav")
         Seat:propNotSolid(Driver:isValid())
         if(Driver==owner()){
             owner():setMaterial("null")
