@@ -846,12 +846,12 @@ if(first()){
         local GliderPos = holoEntity(Bones["Left_Glider_Wing",number]):toWorld(vec(-2,7,3))
         local GroundPos = LeftLeg
         local LegPos = mix(GliderPos,GroundPos,clamp(FlyingStartVal*1.5,0,1))
-        leg_ik(0,5,LegPos,0)
+        leg_ik(0,5+45*ShiftVal,LegPos,0)
         
         local GliderPos = holoEntity(Bones["Right_Glider_Wing",number]):toWorld(vec(-2,-7,3))
         local GroundPos = RightLeg
         local LegPos = mix(GliderPos,GroundPos,clamp(FlyingStartVal*1.5,0,1))
-        leg_ik(1,-5,LegPos,0)
+        leg_ik(1,-5-45*ShiftVal,LegPos,0)
     }else{
         leg_ik(0,5,LeftLeg+vec(0,0,(25+(5*ShiftVal))*sin(WalkRate*180)*Step)*clamp(Vel:length(),0,1)*!Flying,sin(WalkRate*180)*Step*!Flying)
         leg_ik(1,-5,RightLeg+vec(0,0,(25+(5*ShiftVal))*sin(WalkRate*180)*!Step)*clamp(Vel:length(),0,1)*!Flying,sin(WalkRate*180)*!Step*!Flying)
