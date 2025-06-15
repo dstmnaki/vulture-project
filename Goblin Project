@@ -445,7 +445,7 @@ if(first()){
         Landed=1
         timer("int",50)
         for(I=Bones["Model_Start_ID",number],Bones["Model_End_ID",number]){
-            #holoAlpha(I,0)
+            holoAlpha(I,0)
         }
     }else{
         leg_ik(0,5,holoEntity(Bones["Left_Glider_Wing",number]):toWorld(vec(-2,7,3)),0)
