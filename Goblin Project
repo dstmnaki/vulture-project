@@ -479,7 +479,7 @@ if(first()){
     SL = 0#Driver:keyWalk()
     DN = Driver:keyWalk()
     
-    LocalEyes = Driver:isValid() ? SL ? LocalEyes : Driver:eyeAngles() : holoEntity(Bones["Head",number]):angles()
+    LocalEyes = slerp(quat(LocalEyes),quat(Driver:isValid() ? SL ? LocalEyes : Driver:eyeAngles() : holoEntity(Bones["Head",number]):angles()),0.25):toAngle()
     
     if(changed(Driver:isPlayer())&Driver:isPlayer()){
         Base:propFreeze(0)
@@ -794,8 +794,8 @@ if(first()){
         rangerPersist(1)
     }
     holoAng(Bones["Root",number],ang())
-    holoAng(Bones["Glider_Base",number],holoEntity(Bones["Pelvis",number]):toWorld(ang(-105*ShiftVal+5*sin((curtime()+0.1)*180*0.5)/(1+MoveVal)*(1-ShiftVal),0,-15*BASEANGVEL:yaw()/90-5*sin((curtime()+0.1)*180*1.23*0.5)/(1+MoveVal)*(1-ShiftVal))))
-    holoAng(Bones["Pelvis",number],holoEntity(Bones["Root",number]):toWorld(ang(PelvisAng:pitch()+12*sin(curtime()*180*0.5)/(1+MoveVal)*(1-ShiftVal),PelvisAng:yaw(),PelvisAng:roll()-12*sin(curtime()*180*1.23*0.5)/(1+MoveVal)*(1-ShiftVal)):rotateAroundAxis(LocalEyes:forward(),-BASEANGVEL:yaw()*0.4*ShiftVal+45*MOVEY*ShiftVal):rotateAroundAxis(Base:right(),90*DOWN/(1+MOVEW)*MOVEW*ShiftVal):rotateAroundAxis(Base:up(),-45*MOVEY*ShiftVal)*Flying+(ang(0,PelvisAng:yaw()+Yaw+5*Cos2*(Step-!Step),-(10/(5-(ShiftVal*4)))*On_Ground2*clamp(toLocalAng(vec(),LocalEyes,vec(),ang(0,holoEntity(Bones["Pelvis",number]):angles():yaw(),0)):yaw()*0.1,-1,1)*MoveVal+(5*MOVEY*(1+ShiftVal))-0.2*Sin*(Step-!Step))*!Flying*ang(On_Ground2,1,On_Ground2)):rotateAroundAxis(ang(0,LocalEyes:yaw(),0):forward(),-5*clamp(MOVEA-MOVED,-1,1)*(1+ShiftVal)*On_Ground2):rotateAroundAxis(ang(0,LocalEyes:yaw(),0):right(),-12*clamp(MOVEW-MOVES,-0.5,1)*(1+ShiftVal)*On_Ground2)*!Flying))
+    holoAng(Bones["Glider_Base",number],holoEntity(Bones["Pelvis",number]):toWorld(ang(-105*ShiftVal+5*sin((curtime()+0.1)*180*0.5)/(1+MoveVal)*(1-ShiftVal),0,-15*clamp(BASEANGVEL:yaw(),-85,85)/90-5*sin((curtime()+0.1)*180*1.23*0.5)/(1+MoveVal)*(1-ShiftVal))))
+    holoAng(Bones["Pelvis",number],holoEntity(Bones["Root",number]):toWorld(ang(PelvisAng:pitch()+12*sin(curtime()*180*0.5)/(1+MoveVal)*(1-ShiftVal),PelvisAng:yaw(),PelvisAng:roll()-12*sin(curtime()*180*1.23*0.5)/(1+MoveVal)*(1-ShiftVal)):rotateAroundAxis(Base:forward(),-clamp(BASEANGVEL:yaw(),-80,80)*0.4*ShiftVal+45*MOVEY*ShiftVal):rotateAroundAxis(Base:right(),90*DOWN/(1+MOVEW)*MOVEW*ShiftVal):rotateAroundAxis(Base:up(),-45*MOVEY*ShiftVal)*Flying+(ang(0,PelvisAng:yaw()+Yaw+5*Cos2*(Step-!Step),-(10/(5-(ShiftVal*4)))*On_Ground2*clamp(toLocalAng(vec(),LocalEyes,vec(),ang(0,holoEntity(Bones["Pelvis",number]):angles():yaw(),0)):yaw()*0.1,-1,1)*MoveVal+(5*MOVEY*(1+ShiftVal))-0.2*Sin*(Step-!Step))*!Flying*ang(On_Ground2,1,On_Ground2)):rotateAroundAxis(ang(0,LocalEyes:yaw(),0):forward(),-5*clamp(MOVEA-MOVED,-1,1)*(1+ShiftVal)*On_Ground2):rotateAroundAxis(ang(0,LocalEyes:yaw(),0):right(),-12*clamp(MOVEW-MOVES,-0.5,1)*(1+ShiftVal)*On_Ground2)*!Flying))
     if(Flying){
         local PosOnGround = holoEntity(Bones["Root",number]):toWorld(vec(PelvisOffset:x(),PelvisOffset:y(),Length1_Leg+Length2_Leg)+vec(0,0.2*Sin*(Step-!Step),-3*MoveVal):rotateAroundAxis(vec(0,0,1),Yaw))+Vel:normalized()*Vel:length()*12
         local PosOnGlider = holoEntity(Bones["Root",number]):toWorld(vec(PelvisOffset:x()-8*Flying*sin((curtime()+0.2)*180*0.5)/(1+MoveVal)*(1-ShiftVal),PelvisOffset:y()+8*Flying*sin((curtime()+0.2)*180*1.23*0.5)/(1+MoveVal)*(1-ShiftVal),Length1_Leg+Length2_Leg)*Landed)
