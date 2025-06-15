@@ -678,17 +678,17 @@ if(first()){
             switch(Animation["current_weapon",string]){
                 case "none",
                     Animation["PelvisAngNext",angle]=ang(25*MOVEX-(MoveL:x()-MOVEX*(16+20*ShiftVal))*6,Yaw,25*MOVEY)*(1-ShiftVal)+ang(90+LocalEyes:pitch(),Yaw,0)*(ShiftVal)
-                    Animation["PelvisOffsetNext",vector]=vec(0,10*ShiftVal,0)
+                    Animation["PelvisOffsetNext",vector]=vec(0,10*BASEANGVEL:yaw()/90*ShiftVal,0)
                     Animation["Spine1AngNext",angle]=ang(-10*ShiftVal+25,15*ShiftVal,15*ShiftVal)
                     Animation["Spine2AngNext",angle]=ang(-15*ShiftVal+35,25*ShiftVal,25*ShiftVal)
                     Animation["HeadAngNext",angle]=ang(-15*MOVEX,0,-5*MOVEY)*(1-ShiftVal)+ang(-45,0,0)*(ShiftVal)
                     
                     LeftArmTarget1=holoEntity(Bones["Spine1",number]):toWorld(vec(6,25,-3))
-                    LeftArmTarget2=holoEntity(Bones["Pelvis",number]):toWorld(vec(6,30,5))
-                    LeftArmTarget=mix(LeftArmTarget1,LeftArmTarget2,1-ShiftVal)
+                    LeftArmTarget2=holoEntity(Bones["Left_Glider_Wing",number]):toWorld(vec(25,5,-3))
+                    LeftArmTarget=mix(LeftArmTarget1,LeftArmTarget2,clamp(1-BASEANGVEL:yaw()/180*ShiftVal,1-ShiftVal,1))
                     RightArmTarget1=holoEntity(Bones["Spine1",number]):toWorld(vec(6,-25,-3))
                     RightArmTarget2=holoEntity(Bones["Right_Glider_Wing",number]):toWorld(vec(25,-5,-3))
-                    RightArmTarget=mix(RightArmTarget1,RightArmTarget2,1-ShiftVal)
+                    RightArmTarget=mix(RightArmTarget1,RightArmTarget2,clamp(-1+BASEANGVEL:yaw()/180*ShiftVal,1-ShiftVal,1))
                     
                     RollArmLeft=0
                     RollArmRight=0
@@ -702,17 +702,17 @@ if(first()){
             switch(Animation["current_weapon",string]){
                 case "none",
                     Animation["PelvisAngNext",angle]=ang(25*MOVEX-(MoveL:x()-MOVEX*(16+20*ShiftVal))*6,Yaw,25*MOVEY)*(1-ShiftVal)+ang(90+LocalEyes:pitch(),Yaw,0)*(ShiftVal)
-                    Animation["PelvisOffsetNext",vector]=vec(0,10*ShiftVal,0)
+                    Animation["PelvisOffsetNext",vector]=vec(0,10*BASEANGVEL:yaw()/90*ShiftVal,0)
                     Animation["Spine1AngNext",angle]=ang(-10*ShiftVal+25,15*ShiftVal,15*ShiftVal)
                     Animation["Spine2AngNext",angle]=ang(-15*ShiftVal+35,25*ShiftVal,25*ShiftVal)
                     Animation["HeadAngNext",angle]=ang(-15*MOVEX,0,-5*MOVEY)*(1-ShiftVal)+ang(-45,0,0)*(ShiftVal)
                     
                     LeftArmTarget1=holoEntity(Bones["Spine1",number]):toWorld(vec(6,25,-3))
-                    LeftArmTarget2=holoEntity(Bones["Pelvis",number]):toWorld(vec(6,30,5))
-                    LeftArmTarget=mix(LeftArmTarget1,LeftArmTarget2,1-ShiftVal)
+                    LeftArmTarget2=holoEntity(Bones["Left_Glider_Wing",number]):toWorld(vec(25,5,-3))
+                    LeftArmTarget=mix(LeftArmTarget1,LeftArmTarget2,clamp(BASEANGVEL:yaw()/25*ShiftVal,0,1))
                     RightArmTarget1=holoEntity(Bones["Spine1",number]):toWorld(vec(6,-25,-3))
                     RightArmTarget2=holoEntity(Bones["Right_Glider_Wing",number]):toWorld(vec(25,-5,-3))
-                    RightArmTarget=mix(RightArmTarget1,RightArmTarget2,1-ShiftVal)
+                    RightArmTarget=mix(RightArmTarget1,RightArmTarget2,clamp(-BASEANGVEL:yaw()/25*ShiftVal,0,1))
                     
                     RollArmLeft=0
                     RollArmRight=0
@@ -798,7 +798,7 @@ if(first()){
         local PosOnGlider = holoEntity(Bones["Root",number]):toWorld(vec(PelvisOffset:x()-8*Flying*sin((curtime()+0.2)*180*0.5)/(1+MoveVal)*(1-ShiftVal),PelvisOffset:y()+8*Flying*sin((curtime()+0.2)*180*1.23*0.5)/(1+MoveVal)*(1-ShiftVal),Length1_Leg+Length2_Leg)*Landed)
         local Pos = bezier(PosOnGround,(PosOnGlider+PosOnGround)/2+vec(0,0,15),PosOnGlider,FlyingStartVal)
         holoPos(Bones["Pelvis",number],Pos)
-        holoPos(Bones["Glider_Base",number],holoEntity(Bones["Pelvis",number]):toWorld(vec(3*ShiftVal-100*(1-FlyingStartVal),-10*ShiftVal-5*sin(curtime()*180*0.5),-(Length1_Leg+Length2_Leg)*0.8):rotateAroundAxis(vec(0,1,0),-100*ShiftVal)))
+        holoPos(Bones["Glider_Base",number],holoEntity(Bones["Pelvis",number]):toWorld(vec(3*ShiftVal-100*(1-FlyingStartVal),-10*BASEANGVEL:yaw()/90*ShiftVal-5*sin(curtime()*180*0.5),-(Length1_Leg+Length2_Leg)*0.8):rotateAroundAxis(vec(0,1,0),-100*ShiftVal)))
     }else{
         local PosOnGround = holoEntity(Bones["Root",number]):toWorld(vec(PelvisOffset:x(),PelvisOffset:y(),Length1_Leg+Length2_Leg)+vec(0,0.2*Sin*(Step-!Step),-3*MoveVal):rotateAroundAxis(vec(0,0,1),Yaw))+Vel:normalized()*Vel:length()*12
         local PosOnGlider = PosOnGround+vec(0,0,35)
@@ -824,8 +824,8 @@ if(first()){
     }
     local RollGet = Base:toLocal(holoEntity(Bones["Glider_Base",number]):pos()):y()*0.75
     local Roll = clamp(RollGet/(1+abs(RollGet*0.025)),-12,12)
-    holoAng(Bones["Left_Glider_Arm",number],holoEntity(Bones["Glider_Base",number]):toWorld(ang(0,0,-abs(Roll)*Flying/(1+ShiftVal)*(1+(Roll<0))*(1+abs(Roll)/10))*0.5))
-    holoAng(Bones["Right_Glider_Arm",number],holoEntity(Bones["Glider_Base",number]):toWorld(ang(0,0,abs(Roll)*Flying/(1+ShiftVal)*(1+(Roll>0))*(1+abs(Roll)/10))*0.5))
+    holoAng(Bones["Left_Glider_Arm",number],holoEntity(Bones["Glider_Base",number]):toWorld(ang(0,0,clamp(-BASEANGVEL:yaw()/90,0,1)*35-abs(Roll)*Flying/(1+ShiftVal)*(1+(Roll<0))*(1+abs(Roll)/10))*0.5))
+    holoAng(Bones["Right_Glider_Arm",number],holoEntity(Bones["Glider_Base",number]):toWorld(ang(0,0,-clamp(BASEANGVEL:yaw()/90,0,1)*35+abs(Roll)*Flying/(1+ShiftVal)*(1+(Roll>0))*(1+abs(Roll)/10))*0.5))
     holoAng(Bones["Left_Glider_Wing",number],holoEntity(Bones["Left_Glider_Arm",number]):toWorld(ang(15*clamp(-Base:velL():x()/53/15+MOVEX,-1,1)*Flying*(1-ShiftVal)+10*BASEANGVEL:yaw()/90*ShiftVal,0,-abs(Roll)*Flying/(1+ShiftVal)*(1+(Roll<0))*(1+abs(Roll)/10))))
     holoAng(Bones["Right_Glider_Wing",number],holoEntity(Bones["Right_Glider_Arm",number]):toWorld(ang(15*clamp(-Base:velL():x()/53/15+MOVEX,-1,1)*Flying*(1-ShiftVal)-10*BASEANGVEL:yaw()/90*ShiftVal,0,abs(Roll)*Flying/(1+ShiftVal)*(1+(Roll>0))*(1+abs(Roll)/10))))
     arm_ik(0,-RollArmLeft,LeftArmTarget,table(ang(),0))
