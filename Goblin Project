@@ -685,10 +685,10 @@ if(first()){
                     
                     LeftArmTarget1=holoEntity(Bones["Spine1",number]):toWorld(vec(6,25,-3))
                     LeftArmTarget2=holoEntity(Bones["Left_Glider_Wing",number]):toWorld(vec(25,5,-3))
-                    LeftArmTarget=mix(LeftArmTarget1,LeftArmTarget2,clamp(1-BASEANGVEL:yaw()/180*ShiftVal,1-ShiftVal,1))
+                    LeftArmTarget=mix(LeftArmTarget1,LeftArmTarget2,clamp(-1+clamp(BASEANGVEL:yaw()/25*ShiftVal,0,5),1-ShiftVal,1))
                     RightArmTarget1=holoEntity(Bones["Spine1",number]):toWorld(vec(6,-25,-3))
                     RightArmTarget2=holoEntity(Bones["Right_Glider_Wing",number]):toWorld(vec(25,-5,-3))
-                    RightArmTarget=mix(RightArmTarget1,RightArmTarget2,clamp(-1+BASEANGVEL:yaw()/180*ShiftVal,1-ShiftVal,1))
+                    RightArmTarget=mix(RightArmTarget1,RightArmTarget2,clamp(-1+clamp(-BASEANGVEL:yaw()/25*ShiftVal,0,5),1-ShiftVal,1))
                     
                     RollArmLeft=0
                     RollArmRight=0
@@ -709,10 +709,10 @@ if(first()){
                     
                     LeftArmTarget1=holoEntity(Bones["Spine1",number]):toWorld(vec(6,25,-3))
                     LeftArmTarget2=holoEntity(Bones["Left_Glider_Wing",number]):toWorld(vec(25,5,-3))
-                    LeftArmTarget=mix(LeftArmTarget1,LeftArmTarget2,clamp(BASEANGVEL:yaw()/25*ShiftVal,0,1))
+                    LeftArmTarget=mix(LeftArmTarget1,LeftArmTarget2,clamp(-2+clamp(BASEANGVEL:yaw()/25*ShiftVal,0,5),0,1))
                     RightArmTarget1=holoEntity(Bones["Spine1",number]):toWorld(vec(6,-25,-3))
                     RightArmTarget2=holoEntity(Bones["Right_Glider_Wing",number]):toWorld(vec(25,-5,-3))
-                    RightArmTarget=mix(RightArmTarget1,RightArmTarget2,clamp(-BASEANGVEL:yaw()/25*ShiftVal,0,1))
+                    RightArmTarget=mix(RightArmTarget1,RightArmTarget2,clamp(-2+clamp(-BASEANGVEL:yaw()/25*ShiftVal,0,5),0,1))
                     
                     RollArmLeft=0
                     RollArmRight=0
@@ -791,7 +791,7 @@ if(first()){
         rangerPersist(1)
     }
     holoAng(Bones["Root",number],ang())
-    holoAng(Bones["Glider_Base",number],holoEntity(Bones["Pelvis",number]):toWorld(ang(-105*ShiftVal+5*sin((curtime()+0.1)*180*0.5)/(1+MoveVal)*(1-ShiftVal),0,-6.5*BASEANGVEL:yaw()/90-5*sin((curtime()+0.1)*180*1.23*0.5)/(1+MoveVal)*(1-ShiftVal))))
+    holoAng(Bones["Glider_Base",number],holoEntity(Bones["Pelvis",number]):toWorld(ang(-105*ShiftVal+5*sin((curtime()+0.1)*180*0.5)/(1+MoveVal)*(1-ShiftVal),0,-15*BASEANGVEL:yaw()/90-5*sin((curtime()+0.1)*180*1.23*0.5)/(1+MoveVal)*(1-ShiftVal))))
     holoAng(Bones["Pelvis",number],holoEntity(Bones["Root",number]):toWorld(ang(PelvisAng:pitch()+12*sin(curtime()*180*0.5)/(1+MoveVal)*(1-ShiftVal),PelvisAng:yaw(),PelvisAng:roll()-12*sin(curtime()*180*1.23*0.5)/(1+MoveVal)*(1-ShiftVal)):rotateAroundAxis(LocalEyes:forward(),-BASEANGVEL:yaw()*0.4*ShiftVal+45*MOVEY*ShiftVal):rotateAroundAxis(Base:right(),90*UP/(1+MOVEW)*MOVEW*ShiftVal):rotateAroundAxis(Base:up(),-45*MOVEY*ShiftVal)*Flying+(ang(0,PelvisAng:yaw()+Yaw+5*Cos2*(Step-!Step),-(10/(5-(ShiftVal*4)))*On_Ground2*clamp(toLocalAng(vec(),LocalEyes,vec(),ang(0,holoEntity(Bones["Pelvis",number]):angles():yaw(),0)):yaw()*0.1,-1,1)*MoveVal+(5*MOVEY*(1+ShiftVal))-0.2*Sin*(Step-!Step))*!Flying*ang(On_Ground2,1,On_Ground2)):rotateAroundAxis(ang(0,LocalEyes:yaw(),0):forward(),-5*clamp(MOVEA-MOVED,-1,1)*(1+ShiftVal)*On_Ground2):rotateAroundAxis(ang(0,LocalEyes:yaw(),0):right(),-12*clamp(MOVEW-MOVES,-0.5,1)*(1+ShiftVal)*On_Ground2)*!Flying))
     if(Flying){
         local PosOnGround = holoEntity(Bones["Root",number]):toWorld(vec(PelvisOffset:x(),PelvisOffset:y(),Length1_Leg+Length2_Leg)+vec(0,0.2*Sin*(Step-!Step),-3*MoveVal):rotateAroundAxis(vec(0,0,1),Yaw))+Vel:normalized()*Vel:length()*12
