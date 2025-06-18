@@ -614,7 +614,7 @@ if(first()){
     MoveForce=vec(MOVEX,-MOVEY,0):rotateAroundAxis(vec(0,0,1),LocalEyes:yaw())*(0.4+ShiftVal*0.4)*MOVEMAX*MoveVal*(1-sin(ShiftVal*180)*0.4*SP)*(M2*(1-ShiftVal) ? 0.6 : 1)
     DampForce=-(Base:toWorld(Base:velL())-Base:pos())
     if(Flying){
-        Base:applyForce(((LocalEyes:forward()*MOVEX+LocalEyes:right()*MOVEY+vec(0,0,-DN*0.75*!On_Ground)+Base:up()*UP)*(500+(500*ShiftVal))*0.35+DampForce*0.1)*Base:mass())
+        Base:applyForce(((LocalEyes:forward()*MOVEX+LocalEyes:right()*MOVEY+vec(0,0,-DN*0.75*!On_Ground)+Base:up()*UP*0.75)*(300+(350*ShiftVal))*0.35+DampForce*0.1)*Base:mass())
         Base:applyAngForce((Base:toLocal(ang(LocalEyes:pitch()*ShiftVal,Yaw,0))*5-Base:angVel()*0.5)*Base:mass()*5)
     }else{
         Base:applyForce((Ground_Ranger:entity():vel()+HeightForce+MoveForce*BoostData["unblockMovement",number]*(300+(200*ShiftVal))+DampForce)*Base:mass()*On_Ground)
